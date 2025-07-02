@@ -37,7 +37,6 @@ This setup runs n8n, PostgreSQL, and pgAdmin entirely on your local machine. **N
 n8n-docker/
 ├── docker-compose.yml
 ├── Dockerfile (optional)
-├── .env
 ├── README.md
 └── .gitignore (recommended)
 ```
