@@ -1,0 +1,176 @@
+{
+  "name": "Rag Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        0
+      ],
+      "id": "6c7185ce-34a6-43ae-a1ba-fdfa09dca991",
+      "name": "When chat message received",
+      "webhookId": "d9ccac7d-e0ab-41c6-a204-cd9fde352945"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        120,
+        0
+      ],
+      "id": "61b51aa6-df88-4967-b6c1-a9c8b38df80d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-8b-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        220
+      ],
+      "id": "6596a27f-188c-4c5d-89c9-e5d8b1b75c2e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "i9lnFA9FORwtSVu3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        200,
+        220
+      ],
+      "id": "7122094b-97eb-4855-90c0-944d19a691d4",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieve data when the user asks for relevant data about syncup docs data and give it in a well structured manner in the from of answers.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8ntest",
+          "mode": "list",
+          "cachedResultName": "n8ntest"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        222.5
+      ],
+      "id": "7957174f-bf4a-4d13-861d-ea64ec5ba51e",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "p15gy6yUp8ndq7Ei",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        420
+      ],
+      "id": "17805ee5-33c2-4cb8-8f46-93c4b593e093",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "i9lnFA9FORwtSVu3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "79ba13ca-c17c-4795-b4ac-8439c3a1619a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "388b3dc6bf4a17d16394b37ff2e38183114efaa5eb9c9e6177aee4d15bf8fb26"
+  },
+  "id": "TtLig3wau81j0SAQ",
+  "tags": []
+}

@@ -1,0 +1,161 @@
+{
+  "name": "MCP client",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -200,
+        0
+      ],
+      "id": "05e1caaf-0249-4e31-bd1b-45af386de72c",
+      "name": "When chat message received",
+      "webhookId": "b25d62ee-39e8-411f-9c9d-ddb61da2e59f"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        200,
+        -60
+      ],
+      "id": "9c1fa8e9-1f24-4f9c-88c8-6e6076af469c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 500
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        120,
+        260
+      ],
+      "id": "a157977a-d567-48e8-8b63-6bf3cce546fa",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://advaittiwari.app.n8n.cloud/mcp/a77ba73c-4b0c-4107-9a9a-a94dee5c1da3"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        280,
+        260
+      ],
+      "id": "f1c76752-4f6d-47d8-9578-3aaa6087edfd",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        240
+      ],
+      "id": "e689b42a-6212-4f6c-84a9-7a9011c0bca9",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MzAhHta7wk2XKxX5",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"title\": \"Your OTP Code\",\n    \"body\": \"Here is your OTP code: 123456. Do not share...\"\n  },\n  {\n    \"title\": \"Welcome to our newsletter!\",\n    \"body\": \"Thanks for joining our newsletter...\"\n  }\n]\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        540,
+        180
+      ],
+      "id": "0748af9d-ad56-43fb-89e2-80b38284e950",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9e816a79-8b12-4cd5-a7d6-44209ae0d19f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "388b3dc6bf4a17d16394b37ff2e38183114efaa5eb9c9e6177aee4d15bf8fb26"
+  },
+  "id": "Rlrrfj3DU18sOd9u",
+  "tags": []
+}
